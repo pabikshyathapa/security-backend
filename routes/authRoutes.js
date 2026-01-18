@@ -33,10 +33,13 @@ router.post("/register", csrfProtection, authController.register);
 // Login Step 1 - with CSRF protection
 router.post("/login", csrfProtection, authController.login);
 
+
 // MFA Verify Step 2 - with CSRF protection
 router.post("/verify-mfa", csrfProtection, authController.verifyMFA);
 
+
 // Logout
 router.post("/logout", authController.logout);
+
 
 module.exports = router;

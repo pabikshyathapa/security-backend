@@ -521,3 +521,4 @@ exports.logout = (req, res) => {
 exports.getCsrfToken = (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 };
+
