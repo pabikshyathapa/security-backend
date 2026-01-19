@@ -73,12 +73,24 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-
 exports.changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
 
-    const match = await bcrypt.compare(oldPassword, req.user.password);
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        message: "Old password and new password are required",
+      });
+    }
+
+    // ✅ FETCH FULL USER FROM DB
+    const user = await User.findById(req.user.id).select("+password +passwordHistory");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // ✅ NOW bcrypt works
+    const match = await bcrypt.compare(oldPassword, user.password);
     if (!match) {
       return res.status(401).json({ message: "Old password incorrect" });
     }
@@ -88,7 +100,8 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({ message: passwordError });
     }
 
-    for (let entry of req.user.passwordHistory) {
+    // Prevent reuse
+    for (const entry of user.passwordHistory) {
       const reused = await bcrypt.compare(newPassword, entry.password);
       if (reused) {
         return res.status(400).json({
@@ -99,32 +112,33 @@ exports.changePassword = async (req, res) => {
 
     const hashed = await bcrypt.hash(newPassword, 12);
 
-    req.user.password = hashed;
-    req.user.passwordHistory.push({
+    user.password = hashed;
+    user.passwordHistory.push({
       password: hashed,
       changedAt: new Date(),
     });
 
-    req.user.passwordExpiresAt =
-      new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+    user.passwordExpiresAt = new Date(
+      Date.now() + 90 * 24 * 60 * 60 * 1000
+    );
 
-    await req.user.save();
+    await user.save();
 
     await ActivityLog.create({
-      userId: req.user._id,
+      userId: user._id,
       action: "Password changed",
       ipAddress: req.ip,
       userAgent: req.headers["user-agent"],
     });
 
-    res.json({
-      message: "Password changed successfully",
-    });
+    res.json({ message: "Password changed successfully" });
   } catch (err) {
     console.error("Change password error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 exports.updateProfileImage = async (req, res) => {
   try {
     if (!req.file) {
