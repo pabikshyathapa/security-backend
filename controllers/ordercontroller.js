@@ -350,9 +350,7 @@ exports.verifyEsewaOrder = async (req, res) => {
   }
 };
 
-/* =================================================
-   GET MY ORDERS (USER)
-================================================= */
+
 exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
