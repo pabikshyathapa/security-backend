@@ -3,7 +3,6 @@ const router = express.Router();
 const authController = require("../controllers/authcontroller");
 const csrf = require("csurf");
 
-// CSRF protection for specific routes
 const csrfProtection = csrf({
   cookie: {
     httpOnly: true,
