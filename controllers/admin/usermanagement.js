@@ -112,7 +112,7 @@ exports.updateOne = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "User updated",
-      data: updatedUser, // return updated user
+      data: updatedUser, 
     });
   } catch (err) {
     console.error("Update user error:", err);
@@ -125,7 +125,6 @@ exports.updateOne = async (req, res) => {
 };
 
 
-// 5 Delete One
 exports.deleteOne = async (req, res) => {
     const _id = req.params.id
     try{
