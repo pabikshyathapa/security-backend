@@ -304,9 +304,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-/* =================================================
-   VERIFY ESEWA PAYMENT (CALLBACK)
-================================================= */
+
 exports.verifyEsewaOrder = async (req, res) => {
   try {
     console.log("eSewa Callback Query:", req.query);
