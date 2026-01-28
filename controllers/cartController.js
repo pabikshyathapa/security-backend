@@ -34,7 +34,6 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-/* ================= GET MY CART ================= */
 exports.getMyCart = async (req, res) => {
   try {
     const userId = req.user._id;
