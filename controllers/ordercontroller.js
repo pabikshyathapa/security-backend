@@ -243,11 +243,9 @@ exports.createOrder = async (req, res) => {
       const product_service_charge = "0";
       const product_delivery_charge = "0";
 
-      // ✅ Build absolute URLs with fallback
       const backendUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5050}`;
       const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
-      // ✅ Ensure URLs have http/https protocol
       const success_url = backendUrl.startsWith('http') 
         ? `${backendUrl}/api/order/verify-esewa`
         : `http://${backendUrl}/api/order/verify-esewa`;
