@@ -15,10 +15,3 @@ router.get("/all", authenticate, orderController.getAllOrders);
 
 module.exports = router;
 
-
-
-
-// /* ALL ORDERS (authenticated users only) */
-// router.get("/all", authenticate, orderController.getAllOrders);
-
-// module.exports = router;
