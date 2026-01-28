@@ -367,9 +367,7 @@ exports.getMyOrders = async (req, res) => {
   }
 };
 
-/* =================================================
-   GET ALL ORDERS (ADMIN)
-================================================= */
+
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
