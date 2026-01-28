@@ -89,13 +89,11 @@ exports.getOneUser = async (req, res) => {
     
 }
 
-// 4 Update one
 exports.updateOne = async (req, res) => {
   const { name, email, phone, filepath } = req.body;
-  const _id = req.params.id; // mongodb id
+  const _id = req.params.id; 
 
   try {
-    // Build the update object only with fields provided
     const updateFields = {};
     if (name !== undefined) updateFields.name = name;
     if (email !== undefined) updateFields.email = email;
@@ -104,7 +102,7 @@ exports.updateOne = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       _id,
       { $set: updateFields },
-      { new: true } // return the updated document
+      { new: true } 
     );
 
     if (!updatedUser) {
