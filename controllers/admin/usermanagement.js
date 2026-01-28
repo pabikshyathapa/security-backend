@@ -50,7 +50,6 @@ exports.createUser = async (req, res) => {
     }
 }
 
-// 2 Get all/ Read All
 exports.getUsers = async (req, res ) => {
     try{
         const users = await User.find();
@@ -67,7 +66,6 @@ exports.getUsers = async (req, res ) => {
         )
     }
 }
-// 3 Get One/Read one
 exports.getOneUser = async (req, res) => {
     try{
         // unique identifier
