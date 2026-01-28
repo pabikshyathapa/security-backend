@@ -1,6 +1,5 @@
 const Cart = require("../models/cart");
 
-/* ================= ADD TO CART ================= */
 exports.addToCart = async (req, res) => {
   try {
     const { productId, name, price, quantity, filepath } = req.body;
