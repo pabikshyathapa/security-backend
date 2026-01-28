@@ -68,7 +68,6 @@ exports.updateCartItem = async (req, res) => {
   res.json({ success: true, data: cart.products });
 };
 
-/* ================= REMOVE ITEM ================= */
 exports.removeCartItem = async (req, res) => {
   const { productId } = req.body;
   const userId = req.user._id;
