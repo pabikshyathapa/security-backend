@@ -50,7 +50,6 @@ exports.getMyCart = async (req, res) => {
   }
 };
 
-/* ================= UPDATE QUANTITY ================= */
 exports.updateCartItem = async (req, res) => {
   const { productId, quantity } = req.body;
   const userId = req.user._id;
