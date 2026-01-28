@@ -83,13 +83,11 @@ exports.changePassword = async (req, res) => {
       });
     }
 
-    // FETCH FULL USER FROM DB
     const user = await User.findById(req.user.id).select("+password +passwordHistory");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // NOW bcrypt works
     const match = await bcrypt.compare(oldPassword, user.password);
     if (!match) {
       return res.status(401).json({ message: "Old password incorrect" });
@@ -100,7 +98,6 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({ message: passwordError });
     }
 
-    // Prevent reuse
     for (const entry of user.passwordHistory) {
       const reused = await bcrypt.compare(newPassword, entry.password);
       if (reused) {
@@ -145,7 +142,6 @@ exports.updateProfileImage = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // Delete old image if exists
     if (req.user.profileImage) {
       const oldImagePath = path.join(__dirname, "..", req.user.profileImage);
 
