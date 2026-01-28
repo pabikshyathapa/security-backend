@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt")
 
 exports.createUser = async (req, res) => {
     const { username, email, firstName, lastName, password } = req.body
-    // validation
     if (!username || !email || !password) {
         return res.status(400).json(
             {
@@ -12,7 +11,6 @@ exports.createUser = async (req, res) => {
             }
         )
     }
-    // db logic in try/catch
     try {
         const existingUser = await User.findOne(
             {
