@@ -17,7 +17,6 @@ module.exports = router;
 // const express = require("express");
 // const router = express.Router();
 // const orderController = require("../controllers/ordercontroller");
-// const { authenticate } = require("../middlewares/authorizedUser");
 
 // /* USER */
 // router.post("/create", authenticate, orderController.createOrder);
