@@ -68,8 +68,7 @@ exports.getUsers = async (req, res ) => {
 }
 exports.getOneUser = async (req, res) => {
     try{
-        // unique identifier
-        const id = req.params.id // mongodb id
+        const id = req.params.id 
         const user = await User.findOne(
             {
                 "_id": id
