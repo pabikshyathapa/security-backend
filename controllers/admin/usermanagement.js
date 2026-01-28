@@ -1,8 +1,6 @@
 const User = require("../../models/User")
 const bcrypt = require("bcrypt")
 
-// 5 common api
-// Create, Read All, Read One, Update One, Delete One
 exports.createUser = async (req, res) => {
     const { username, email, firstName, lastName, password } = req.body
     // validation
