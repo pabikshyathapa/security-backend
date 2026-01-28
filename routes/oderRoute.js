@@ -14,9 +14,7 @@ router.get("/verify-esewa", orderController.verifyEsewaOrder);
 router.get("/all", authenticate, orderController.getAllOrders);
 
 module.exports = router;
-// const express = require("express");
-// const router = express.Router();
-// const orderController = require("../controllers/ordercontroller");
+
 
 // /* USER */
 // router.post("/create", authenticate, orderController.createOrder);
