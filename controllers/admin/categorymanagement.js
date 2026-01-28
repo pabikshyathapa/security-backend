@@ -37,7 +37,6 @@ exports.getCategoryById = async (req, res) => {
     }
 };
 
-// Update a category
 exports.updateCategory = async (req, res) => {
     try {
         const filename = req.file?.path
@@ -60,7 +59,6 @@ exports.updateCategory = async (req, res) => {
     }
 };
 
-// Delete a category
 exports.deleteCategory = async (req, res) => {
     try {
         const result = await Category.findByIdAndDelete(req.params.id);
