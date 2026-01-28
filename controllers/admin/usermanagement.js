@@ -26,10 +26,9 @@ exports.createUser = async (req, res) => {
                 }
             )
         }
-        // hash password
         const hasedPas = await bcrypt.hash(
             password, 10
-        ) // 10 is complexity
+        ) 
         const newUser = new User({
             username,
             email,
