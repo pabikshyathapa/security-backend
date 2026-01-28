@@ -82,7 +82,6 @@ exports.removeCartItem = async (req, res) => {
   res.json({ success: true, data: cart.products });
 };
 
-/* ================= CLEAR CART ================= */
 exports.clearCart = async (req, res) => {
   await Cart.findOneAndUpdate(
     { userId: req.user._id },
