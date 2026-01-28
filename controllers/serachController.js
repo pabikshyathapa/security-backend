@@ -8,8 +8,7 @@ exports.searchProducts = async (req, res) => {
       return res.status(400).json({ message: "Search query is required" });
     }
 
-    // Use RegExp for flexible matching
-    const regex = new RegExp(keyword, "i"); // case-insensitive
+    const regex = new RegExp(keyword, "i"); 
 
     const results = await Product.find({
       $or: [
