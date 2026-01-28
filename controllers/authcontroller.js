@@ -9,7 +9,6 @@ const { generateOTP } = require("../utils/mfa");
 const { verifyCaptcha } = require("../utils/verifycaptcha");
 const { sendOTPEmail } = require("../utils/sendEmail");
 
-/* ================= REGISTER ================= */
 exports.register = async (req, res) => {
   const { name, email, phone, password } = req.body;
 
@@ -42,7 +41,6 @@ exports.register = async (req, res) => {
   res.status(201).json({ message: "Registered successfully" });
 };
 
-/* ================= LOGIN STEP 1 ================= */
 exports.login = async (req, res) => {
   try {
     const { email, password, captchaToken } = req.body;
@@ -109,7 +107,6 @@ exports.login = async (req, res) => {
   }
 };
 
-/* ================= LOGIN STEP 2 (MFA VERIFY) ================= */
 exports.verifyMFA = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -131,15 +128,12 @@ exports.verifyMFA = async (req, res) => {
       return res.status(401).json({ message: "Invalid or expired OTP" });
     }
 
-    // Clear OTP
     user.mfaOTP = undefined;
     user.mfaOTPExpires = undefined;
     
-    // Update last login timestamp for session tracking
     user.lastLogin = new Date();
     await user.save();
 
-    // 🔐 CREATE SESSION TOKEN with session ID for tracking
     const sessionId = require('crypto').randomBytes(32).toString('hex');
     const token = jwt.sign(
       { 
@@ -152,12 +146,11 @@ exports.verifyMFA = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    // 🔐 STORE TOKEN IN SECURE COOKIE
     res.cookie("access_token", token, {
-      httpOnly: true, // JS cannot access → XSS safe
+      httpOnly: true, 
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", // CSRF protection
-      maxAge: 60 * 60 * 1000, // 1 hour
+      sameSite: "strict", 
+      maxAge: 60 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -175,7 +168,6 @@ exports.verifyMFA = async (req, res) => {
   }
 };
 
-/* ================= LOGOUT ================= */
 exports.logout = (req, res) => {
   res.clearCookie("access_token", {
     httpOnly: true,
@@ -186,7 +178,6 @@ exports.logout = (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 
-/* ================= GET CSRF TOKEN ================= */
 exports.getCsrfToken = (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 };

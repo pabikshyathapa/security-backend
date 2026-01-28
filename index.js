@@ -8,24 +8,16 @@ const csrf = require("csurf");
 
 const app = express();
 
-// ---------------------- CORS ----------------------
-// MUST BE BEFORE OTHER MIDDLEWARE
+
 const allowedOrigin = "http://localhost:5173";
 app.use(
   cors({
     origin: allowedOrigin,
-    credentials: true, // Allow cookies
+    credentials: true, 
   })
 );
-
-// ---------------------- MIDDLEWARE ----------------------
 app.use(express.json());
-app.use(cookieParser()); // MUST be before CSRF
-
-// Serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// ---------------------- CSRF PROTECTION ----------------------
+app.use(cookieParser());
 const csrfProtection = csrf({
   cookie: {
     httpOnly: true,
@@ -34,27 +26,22 @@ const csrfProtection = csrf({
   },
 });
 
-// ---------------------- ROUTES ----------------------
-// Authentication & MFA
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
-
-// Profile management (protected)
 const profileRoutes = require("./routes/profileRoutes");
 app.use("/api/profile", csrfProtection, profileRoutes);
-
-// Admin routes
 const adminUserRoutes = require("./routes/admin/userRouteAdmin");
 const adminCategoryRoutes = require("./routes/admin/categoryRouteAdmin");
 const adminProductRoutes = require("./routes/admin/productRouteAdmin");
 const adminRoutes = require("./routes/admin/AdminRoute");
-
 app.use("/api/admin/users", csrfProtection, adminUserRoutes);
 app.use("/api/admin/category", csrfProtection, adminCategoryRoutes);
 app.use("/api/admin/product", csrfProtection, adminProductRoutes);
 app.use("/api/admins", csrfProtection, adminRoutes);
 
-// App features
 const publicRoutes = require("./routes/publicRoutes");
 const cartRoutes = require("./routes/cartRoute");
 const wishlistRoutes = require("./routes/wishlistRoutes");
@@ -67,7 +54,6 @@ app.use("/api/wishlist", csrfProtection, wishlistRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/search-products", searchRoutes);
 
-// ---------------------- SERVER ----------------------
 const PORT = process.env.PORT || 5050;
 
 connectDB().then(() => {
