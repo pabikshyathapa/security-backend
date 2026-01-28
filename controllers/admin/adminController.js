@@ -6,16 +6,14 @@ exports.adminLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Normalize email
     const normalizedEmail = email.toLowerCase();
 
-    // Check if admin exists
     const admin = await Admin.findOne({ email: normalizedEmail });
     if (!admin) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Compare password
+    // Compare 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
