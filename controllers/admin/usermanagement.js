@@ -1,144 +1,144 @@
-const User = require("../../models/User")
-const bcrypt = require("bcrypt")
+// const User = require("../../models/User")
+// const bcrypt = require("bcrypt")
 
-exports.createUser = async (req, res) => {
-    const { username, email, firstName, lastName, password } = req.body
-    if (!username || !email || !password) {
-        return res.status(400).json(
-            {
-                "success": false,
-                "message": "Missing fields"
-            }
-        )
-    }
-    try {
-        const existingUser = await User.findOne(
-            {
-                $or: [{ "username": username },
-                { "email": email }]
-            }
-        )
-        if (existingUser) {
-            return res.status(400).json(
-                {
-                    "success": false,
-                    "message": "User exists"
-                }
-            )
-        }
-        const hasedPas = await bcrypt.hash(
-            password, 10
-        ) 
-        const newUser = new User({
-            username,
-            email,
-            firstName,
-            lastName,
-            password: hasedPas
-        })
-        await newUser.save()
-        return res.status(201).json(
-            {
-                "success": true,
-                "message": "User Registered"
-            }
-        )
-    } catch (err) {
-        return res.status(500).json(
-            { "success": false, "message": "Server error" }
-        )
-    }
-}
+// exports.createUser = async (req, res) => {
+//     const { username, email, firstName, lastName, password } = req.body
+//     if (!username || !email || !password) {
+//         return res.status(400).json(
+//             {
+//                 "success": false,
+//                 "message": "Missing fields"
+//             }
+//         )
+//     }
+//     try {
+//         const existingUser = await User.findOne(
+//             {
+//                 $or: [{ "username": username },
+//                 { "email": email }]
+//             }
+//         )
+//         if (existingUser) {
+//             return res.status(400).json(
+//                 {
+//                     "success": false,
+//                     "message": "User exists"
+//                 }
+//             )
+//         }
+//         const hasedPas = await bcrypt.hash(
+//             password, 10
+//         ) 
+//         const newUser = new User({
+//             username,
+//             email,
+//             firstName,
+//             lastName,
+//             password: hasedPas
+//         })
+//         await newUser.save()
+//         return res.status(201).json(
+//             {
+//                 "success": true,
+//                 "message": "User Registered"
+//             }
+//         )
+//     } catch (err) {
+//         return res.status(500).json(
+//             { "success": false, "message": "Server error" }
+//         )
+//     }
+// }
 
-exports.getUsers = async (req, res ) => {
-    try{
-        const users = await User.find();
-        return res.status(200).json(
-            {
-                "success": true,
-                "message": "All users",
-                "data":users
-            }
-        )
-    }catch(err){
-        return res.status(500).json(
-            { "success": false, "message": "Server error" }
-        )
-    }
-}
-exports.getOneUser = async (req, res) => {
-    try{
-        const id = req.params.id 
-        const user = await User.findOne(
-            {
-                "_id": id
-            }
-        )
-        return res.status(200).json(
-            {
-                "succes": true,
-                "message": "One user fetched",
-                "data": user
-            }
-        )
-    }catch(err){
-        return res.status(500).json(
-            { "success": false, "message": "Server error" }
-        )
-    }
+// exports.getUsers = async (req, res ) => {
+//     try{
+//         const users = await User.find();
+//         return res.status(200).json(
+//             {
+//                 "success": true,
+//                 "message": "All users",
+//                 "data":users
+//             }
+//         )
+//     }catch(err){
+//         return res.status(500).json(
+//             { "success": false, "message": "Server error" }
+//         )
+//     }
+// }
+// exports.getOneUser = async (req, res) => {
+//     try{
+//         const id = req.params.id 
+//         const user = await User.findOne(
+//             {
+//                 "_id": id
+//             }
+//         )
+//         return res.status(200).json(
+//             {
+//                 "succes": true,
+//                 "message": "One user fetched",
+//                 "data": user
+//             }
+//         )
+//     }catch(err){
+//         return res.status(500).json(
+//             { "success": false, "message": "Server error" }
+//         )
+//     }
     
-}
+// }
 
-exports.updateOne = async (req, res) => {
-  const { name, email, phone, filepath } = req.body;
-  const _id = req.params.id; 
+// exports.updateOne = async (req, res) => {
+//   const { name, email, phone, filepath } = req.body;
+//   const _id = req.params.id; 
 
-  try {
-    const updateFields = {};
-    if (name !== undefined) updateFields.name = name;
-    if (email !== undefined) updateFields.email = email;
-    if (phone !== undefined) updateFields.phone = phone;
+//   try {
+//     const updateFields = {};
+//     if (name !== undefined) updateFields.name = name;
+//     if (email !== undefined) updateFields.email = email;
+//     if (phone !== undefined) updateFields.phone = phone;
 
-    const updatedUser = await User.findByIdAndUpdate(
-      _id,
-      { $set: updateFields },
-      { new: true } 
-    );
+//     const updatedUser = await User.findByIdAndUpdate(
+//       _id,
+//       { $set: updateFields },
+//       { new: true } 
+//     );
 
-    if (!updatedUser) {
-      return res.status(404).json({ success: false, message: "User not found" });
-    }
+//     if (!updatedUser) {
+//       return res.status(404).json({ success: false, message: "User not found" });
+//     }
 
-    return res.status(200).json({
-      success: true,
-      message: "User updated",
-      data: updatedUser, 
-    });
-  } catch (err) {
-    console.error("Update user error:", err);
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: err.message,
-    });
-  }
-};
+//     return res.status(200).json({
+//       success: true,
+//       message: "User updated",
+//       data: updatedUser, 
+//     });
+//   } catch (err) {
+//     console.error("Update user error:", err);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server error",
+//       error: err.message,
+//     });
+//   }
+// };
 
 
-exports.deleteOne = async (req, res) => {
-    const _id = req.params.id
-    try{
-        const user = await User.deleteOne(
-            {
-                "_id": _id
-            }
-        )
-        return res.status(200).json(
-            {"success" : true, "message": "User Deleted"}
-        )
-    }catch(err){
-        return res.status(500).json(
-            {"success": false, "message": "Server Error"}
-        )
-    }
-}
+// exports.deleteOne = async (req, res) => {
+//     const _id = req.params.id
+//     try{
+//         const user = await User.deleteOne(
+//             {
+//                 "_id": _id
+//             }
+//         )
+//         return res.status(200).json(
+//             {"success" : true, "message": "User Deleted"}
+//         )
+//     }catch(err){
+//         return res.status(500).json(
+//             {"success": false, "message": "Server Error"}
+//         )
+//     }
+// }
