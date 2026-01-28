@@ -152,11 +152,9 @@ exports.updateProfileImage = async (req, res) => {
       });
     }
 
-    // Save new image path in DB
     req.user.profileImage = `/uploads/profile/${req.file.filename}`;
     await req.user.save();
 
-    // Log activity
     await ActivityLog.create({
       userId: req.user._id,
       action: "Profile image updated",
