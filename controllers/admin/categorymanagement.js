@@ -1,6 +1,5 @@
 const Category = require('../../models/Category');
 
-// Create a new category
 exports.createCategory = async (req, res) => {
     try {
         const filename = req.file?.path
@@ -26,7 +25,6 @@ exports.getAllCategories = async (req, res) => {
     }
 };
 
-// Get single category by ID
 exports.getCategoryById = async (req, res) => {
     try {
         const category = await Category.findById(req.params.id);
