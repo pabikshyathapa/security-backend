@@ -11,12 +11,12 @@ const productSchema = new mongoose.Schema(
             required: true
         },
         categoryId: {
-            type: mongoose.Schema.ObjectId, // foreign key/referencing
+            type: mongoose.Schema.ObjectId, 
             ref: 'Category',
             required: true
         },
         sellerId: {
-            type: mongoose.Schema.ObjectId, // foreign key/referencing
+            type: mongoose.Schema.ObjectId, 
             ref: 'User',
             required: true
         },
