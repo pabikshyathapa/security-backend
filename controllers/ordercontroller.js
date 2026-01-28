@@ -178,9 +178,7 @@ const Order = require("../models/order");
 const Cart = require("../models/cart");
 const crypto = require("crypto");
 
-/* =================================================
-   CREATE ORDER (COD + ESEWA)
-================================================= */
+
 exports.createOrder = async (req, res) => {
   try {
     const userId = req.user._id;
