@@ -335,7 +335,6 @@ exports.verifyEsewaOrder = async (req, res) => {
     order.orderStatus = "confirmed";
     await order.save();
 
-    // Clear cart AFTER payment success
     await Cart.findOneAndUpdate(
       { userId: order.user },
       { products: [] }
