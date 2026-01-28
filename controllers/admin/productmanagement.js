@@ -1,6 +1,5 @@
 const Product = require('../../models/Product');
 
-// Create a new product
 exports.createProduct = async (req, res) => {
   try {
     const filepath = req.file?.path;
@@ -28,7 +27,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Get all products (paginated)
 exports.getAllProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -57,7 +55,6 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// Get a product by ID
 exports.getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id)
