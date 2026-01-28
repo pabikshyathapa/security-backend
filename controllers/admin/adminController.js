@@ -13,7 +13,6 @@ exports.adminLogin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Compare 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
@@ -25,7 +24,6 @@ exports.adminLogin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    // Send response
     return res.status(200).json({
       message: 'Login successful',
       user: {
