@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
 
     if (isAccountLocked(user)) {
       return res.status(423).json({
-        message: "Account locked. Try again later.",
+        message: "Account locked. Try again after 15 minutes.",
       });
     }
 
